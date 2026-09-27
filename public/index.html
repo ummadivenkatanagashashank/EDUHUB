@@ -1,0 +1,463 @@
+<html>
+<head>
+    <title>EduHub - AI-Powered Learning Platform</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Authentication Section -->
+    <div id="auth-section" class="auth-section">
+        <div class="auth-container">
+            <div class="auth-header">
+                <div class="auth-logo">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>EduHub</span>
+                </div>
+                <p>Your AI-powered learning companion</p>
+            </div>
+            
+            <!-- Login Form -->
+            <div id="login-form" class="auth-form active">
+                <h2>Welcome Back</h2>
+                <p>Sign in to continue your learning journey</p>
+                
+                <form onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label for="login-email">Email</label>
+                        <input type="email" id="login-email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="login-password">Password</label>
+                        <input type="password" id="login-password" required>
+                    </div>
+                    
+                    <button type="submit" class="auth-btn">
+                        <span id="login-loading" class="loading" style="display: none;"></span>
+                        <span id="login-text">Sign In</span>
+                    </button>
+                </form>
+                
+                <p class="auth-switch">
+                    Don't have an account? 
+                    <a href="#" onclick="showRegisterForm()">Sign Up</a>
+                </p>
+            </div>
+            
+            <!-- Register Form -->
+            <div id="register-form" class="auth-form">
+                <h2>Join EduHub</h2>
+                <p>Create your account to start learning</p>
+                
+                <form onsubmit="handleRegister(event)">
+                    <div class="form-group">
+                        <label for="register-name">Full Name</label>
+                        <input type="text" id="register-name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="register-email">Email</label>
+                        <input type="email" id="register-email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="register-password">Password</label>
+                        <input type="password" id="register-password" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="register-grade">Grade/Class</label>
+                        <select id="register-grade" required>
+                            <option value="">Select Grade</option>
+                            <option value="Class 11">Class 11</option>
+                            <option value="Class 12">Class 12</option>
+                            <option value="JEE">JEE</option>
+                            <option value="NEET">NEET</option>
+                            <option value="GATE">GATE</option>
+                            <option value="UPSC">UPSC</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="register-exam">Target Exam</label>
+                        <select id="register-exam" required>
+                            <option value="">Select Exam</option>
+                            <option value="JEE Main">JEE Main</option>
+                            <option value="JEE Advanced">JEE Advanced</option>
+                            <option value="NEET">NEET</option>
+                            <option value="GATE">GATE</option>
+                            <option value="UPSC">UPSC</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="auth-btn">
+                        <span id="register-loading" class="loading" style="display: none;"></span>
+                        <span id="register-text">Create Account</span>
+                    </button>
+                </form>
+                
+                <p class="auth-switch">
+                    Already have an account? 
+                    <a href="#" onclick="showLoginForm()">Sign In</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Application (Hidden until authenticated) -->
+    <div id="app-section" class="app-section" style="display: none;">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>EduHub</span>
+                </div>
+                <div class="nav-menu">
+                    <a href="#dashboard" class="nav-link active">Dashboard</a>
+                    <a href="#subjects" class="nav-link">Subjects</a>
+                    <a href="#ai-tutor" class="nav-link">AI Tutor</a>
+                    <a href="#quizzes" class="nav-link">Quizzes</a>
+                    <a href="#progress" class="nav-link">Progress</a>
+                </div>
+                <div class="nav-actions">
+                    <span id="user-name" class="user-name"></span>
+                    <select id="language-selector" class="language-selector">
+                        <option value="English">English</option>
+                        <option value="Hindi">Hindi</option>
+                        <option value="Telugu">Telugu</option>
+                    </select>
+                    <button class="logout-btn" onclick="handleLogout()">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="section active">
+                <div class="container">
+                    <h1 class="section-title">Welcome to EduHub</h1>
+                    <p class="section-subtitle">Your AI-powered learning companion</p>
+                    
+                    <!-- Quick Stats -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-book"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3 id="total-subjects">0</h3>
+                                <p>Subjects</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-question-circle"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3 id="total-quizzes">0</h3>
+                                <p>Quizzes Taken</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3 id="avg-score">0%</h3>
+                                <p>Average Score</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3 id="study-time">0h</h3>
+                                <p>Study Time</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="quick-actions">
+                        <h2>Quick Actions</h2>
+                        <div class="action-grid">
+                            <button class="action-btn" onclick="openAITutor()">
+                                <i class="fas fa-robot"></i>
+                                <span>Ask AI Tutor</span>
+                            </button>
+                            <button class="action-btn" onclick="generateQuiz()">
+                                <i class="fas fa-quiz"></i>
+                                <span>Take Quiz</span>
+                            </button>
+                            <button class="action-btn" onclick="getStudyMaterials()">
+                                <i class="fas fa-book-open"></i>
+                                <span>Study Materials</span>
+                            </button>
+                            <button class="action-btn" onclick="viewProgress()">
+                                <i class="fas fa-chart-bar"></i>
+                                <span>View Progress</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity -->
+                    <div class="recent-activity">
+                        <h2>Recent Activity</h2>
+                        <div id="activity-list" class="activity-list">
+                            <!-- Activity items will be populated here -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Subjects Section -->
+            <section id="subjects" class="section">
+                <div class="container">
+                    <h1 class="section-title">Subjects & Topics</h1>
+                    
+                    <div class="subjects-grid">
+                        <div class="subject-card" data-subject="Mathematics">
+                            <div class="subject-icon">
+                                <i class="fas fa-square-root-alt"></i>
+                            </div>
+                            <h3>Mathematics</h3>
+                            <p>Algebra, Calculus, Trigonometry, Geometry</p>
+                            <div class="subject-topics">
+                                <span class="topic-tag">Algebra</span>
+                                <span class="topic-tag">Calculus</span>
+                                <span class="topic-tag">Geometry</span>
+                            </div>
+                            <button class="subject-btn" onclick="exploreSubject('Mathematics')">Explore</button>
+                        </div>
+                        
+                        <div class="subject-card" data-subject="Physics">
+                            <div class="subject-icon">
+                                <i class="fas fa-atom"></i>
+                            </div>
+                            <h3>Physics</h3>
+                            <p>Mechanics, Thermodynamics, Electromagnetism</p>
+                            <div class="subject-topics">
+                                <span class="topic-tag">Mechanics</span>
+                                <span class="topic-tag">Thermodynamics</span>
+                                <span class="topic-tag">Electromagnetism</span>
+                            </div>
+                            <button class="subject-btn" onclick="exploreSubject('Physics')">Explore</button>
+                        </div>
+                        
+                        <div class="subject-card" data-subject="Chemistry">
+                            <div class="subject-icon">
+                                <i class="fas fa-flask"></i>
+                            </div>
+                            <h3>Chemistry</h3>
+                            <p>Organic, Inorganic, Physical Chemistry</p>
+                            <div class="subject-topics">
+                                <span class="topic-tag">Organic</span>
+                                <span class="topic-tag">Inorganic</span>
+                                <span class="topic-tag">Physical</span>
+                            </div>
+                            <button class="subject-btn" onclick="exploreSubject('Chemistry')">Explore</button>
+                        </div>
+                        
+                        <div class="subject-card" data-subject="Biology">
+                            <div class="subject-icon">
+                                <i class="fas fa-dna"></i>
+                            </div>
+                            <h3>Biology</h3>
+                            <p>Botany, Zoology, Human Physiology</p>
+                            <div class="subject-topics">
+                                <span class="topic-tag">Botany</span>
+                                <span class="topic-tag">Zoology</span>
+                                <span class="topic-tag">Physiology</span>
+                            </div>
+                            <button class="subject-btn" onclick="exploreSubject('Biology')">Explore</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- AI Tutor Section -->
+            <section id="ai-tutor" class="section">
+                <div class="container">
+                    <h1 class="section-title">AI Tutor</h1>
+                    <p class="section-subtitle">Get instant help with your doubts</p>
+                    
+                    <div class="tutor-container">
+                        <div class="tutor-sidebar">
+                            <div class="subject-selector">
+                                <label for="tutor-subject">Subject:</label>
+                                <select id="tutor-subject">
+                                    <option value="Mathematics">Mathematics</option>
+                                    <option value="Physics">Physics</option>
+                                    <option value="Chemistry">Chemistry</option>
+                                    <option value="Biology">Biology</option>
+                                    <option value="English">English</option>
+                                    <option value="History">History</option>
+                                    <option value="Geography">Geography</option>
+                                </select>
+                            </div>
+                            
+                            <div class="quick-questions">
+                                <h3>Quick Questions</h3>
+                                <button class="quick-question" onclick="askQuickQuestion('What is the derivative of x²?')">
+                                    What is the derivative of x²?
+                                </button>
+                                <button class="quick-question" onclick="askQuickQuestion('Explain Newton\'s laws of motion')">
+                                    Explain Newton's laws of motion
+                                </button>
+                                <button class="quick-question" onclick="askQuickQuestion('What is photosynthesis?')">
+                                    What is photosynthesis?
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="tutor-chat">
+                            <div class="chat-header">
+                                <h3>Chat with AI Tutor</h3>
+                                <span class="online-status">Online</span>
+                            </div>
+                            
+                            <div id="chat-messages" class="chat-messages">
+                                <div class="message ai-message">
+                                    <div class="message-avatar">
+                                        <i class="fas fa-robot"></i>
+                                    </div>
+                                    <div class="message-content">
+                                        <p>Hello! I'm your AI tutor. Ask me anything about your subjects and I'll help you understand the concepts better.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="chat-input">
+                                <textarea id="question-input" placeholder="Type your question here..." rows="3"></textarea>
+                                <button id="send-question" onclick="sendQuestion()">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quizzes Section -->
+            <section id="quizzes" class="section">
+                <div class="container">
+                    <h1 class="section-title">Quizzes & Tests</h1>
+                    
+                    <div class="quiz-types">
+                        <div class="quiz-type-card">
+                            <h3>Mock Tests</h3>
+                            <p>Full-length practice tests for competitive exams</p>
+                            <div class="quiz-form">
+                                <select id="mock-subject">
+                                    <option value="">Select Subject</option>
+                                    <option value="Mathematics">Mathematics</option>
+                                    <option value="Physics">Physics</option>
+                                    <option value="Chemistry">Chemistry</option>
+                                    <option value="Biology">Biology</option>
+                                </select>
+                                <select id="mock-topic">
+                                    <option value="">Select Topic</option>
+                                </select>
+                                <select id="mock-difficulty">
+                                    <option value="Easy">Easy</option>
+                                    <option value="Medium">Medium</option>
+                                    <option value="Hard">Hard</option>
+                                </select>
+                                <button onclick="generateMockTest()">Generate Test</button>
+                            </div>
+                        </div>
+                        
+                        <div class="quiz-type-card">
+                            <h3>Personalized Quiz</h3>
+                            <p>AI-generated quiz based on your learning progress</p>
+                            <button onclick="generatePersonalizedQuiz()">Generate Quiz</button>
+                        </div>
+                        
+                        <div class="quiz-type-card">
+                            <h3>Weekly Progress Quiz</h3>
+                            <p>Test your understanding of topics studied this week</p>
+                            <button onclick="generateWeeklyQuiz()">Start Quiz</button>
+                        </div>
+                    </div>
+                    
+                    <div id="quiz-container" class="quiz-container" style="display: none;">
+                        <!-- Quiz content will be loaded here -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Progress Section -->
+            <section id="progress" class="section">
+                <div class="container">
+                    <h1 class="section-title">Progress Dashboard</h1>
+                    
+                    <div class="progress-overview">
+                        <div class="progress-card">
+                            <h3>Overall Performance</h3>
+                            <div class="progress-stats">
+                                <div class="progress-stat">
+                                    <span class="stat-label">Average Score</span>
+                                    <span id="overall-avg" class="stat-value">0%</span>
+                                </div>
+                                <div class="progress-stat">
+                                    <span class="stat-label">Total Quizzes</span>
+                                    <span id="overall-quizzes" class="stat-value">0</span>
+                                </div>
+                                <div class="progress-stat">
+                                    <span class="stat-label">Study Time</span>
+                                    <span id="overall-time" class="stat-value">0h</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="progress-card">
+                            <h3>Weak Topics</h3>
+                            <div id="weak-topics" class="topics-list">
+                                <!-- Weak topics will be populated here -->
+                            </div>
+                        </div>
+                        
+                        <div class="progress-card">
+                            <h3>Strong Topics</h3>
+                            <div id="strong-topics" class="topics-list">
+                                <!-- Strong topics will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="recommendations">
+                        <h2>AI Recommendations</h2>
+                        <div id="recommendations-list" class="recommendations-list">
+                            <!-- Recommendations will be populated here -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Modals -->
+        <div id="modal-overlay" class="modal-overlay">
+            <div class="modal">
+                <div class="modal-header">
+                    <h3 id="modal-title">Modal Title</h3>
+                    <button class="modal-close" onclick="closeModal()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div id="modal-content" class="modal-content">
+                    <!-- Modal content will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 
