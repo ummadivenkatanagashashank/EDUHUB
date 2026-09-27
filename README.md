@@ -263,4 +263,5 @@ For support and questions:
 
 ---
 
-**EduHub** - Empowering students with AI-driven education! 🎓✨ 
+**EduHub** - Empowering students with AI-driven education! 🎓✨ #   E D U H U B  
+ 
